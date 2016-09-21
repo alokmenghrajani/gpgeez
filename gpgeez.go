@@ -32,12 +32,11 @@ const (
 )
 
 /**
- * CreateKey create a GPG key which is similar to what you get if you run GnuPG's
+ * CreateKey creates a GPG key which is similar to running GnuPG's
  * gpg --gen-key command line tool.
  *
- * You get back a primary signing key, an encryption subkey and self-signatures.
- *
- * This function sets expiry, preferred ciphers, etc.
+ * I.e. this method returns a primary signing key, an encryption subkey, a bunch of self-signatures
+ *      and information such as ciphers to use, expiry, etc.
  *
  * There are a few differences:
  * - GnuPG sets key server preference to 0x80, no-modify (see https://tools.ietf.org/html/rfc4880#section-5.2.3.17)
@@ -53,8 +52,12 @@ const (
  * with:
  *   gpg --homedir /tmp --gen-key; gpg --homedir /tmp -a --export | gpg --homedir /tmp --list-packets
  *
+ * Or just look at https://github.com/alokmenghrajani/gpgeez/blob/master/gpgeez_test.pl
+ *
  * Some useful links:
  * https://davesteele.github.io/gpg/2014/09/20/anatomy-of-a-gpg-key/
+ * http://stackoverflow.com/questions/29929750/go-golang-openpg-create-key-pair-and-create-signature
+ * https://github.com/golang/go/issues/12153
  */
 func CreateKey(name, comment, email string, config *Config) (*Key, error) {
   // Create the key
