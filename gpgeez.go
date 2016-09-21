@@ -55,8 +55,8 @@ const (
  * Or just look at https://github.com/alokmenghrajani/gpgeez/blob/master/gpgeez_test.pl
  *
  * Some useful links:
+ * https://godoc.org/golang.org/x/crypto/openpgp
  * https://davesteele.github.io/gpg/2014/09/20/anatomy-of-a-gpg-key/
- * http://stackoverflow.com/questions/29929750/go-golang-openpg-create-key-pair-and-create-signature
  * https://github.com/golang/go/issues/12153
  */
 func CreateKey(name, comment, email string, config *Config) (*Key, error) {
