@@ -58,12 +58,12 @@ const (
  */
 func CreateKey(name, comment, email string, config *Config) (*Key, error) {
   // Create the key
-  key, err := openpgp.NewEntity(name, comment, email, nil)
+  key, err := openpgp.NewEntity(name, comment, email, &config.Config)
   if err != nil {
     return nil, err
   }
 
-  // Self-sign the identity. Set expiry and algorithms
+  // Set expiry and algorithms. Self-sign the identity.
   dur := uint32(config.Expiry.Seconds())
   for _, id := range key.Identities {
     id.SelfSignature.KeyLifetimeSecs = &dur
@@ -89,7 +89,7 @@ func CreateKey(name, comment, email string, config *Config) (*Key, error) {
       uint8(packet.CompressionZIP),
     }
 
-    err := id.SelfSignature.SignUserId(id.UserId.Id, key.PrimaryKey, key.PrivateKey, nil)
+    err := id.SelfSignature.SignUserId(id.UserId.Id, key.PrimaryKey, key.PrivateKey, &config.Config)
     if err != nil {
       return nil, err
     }
@@ -98,7 +98,7 @@ func CreateKey(name, comment, email string, config *Config) (*Key, error) {
   // Self-sign the Subkeys
   for _, subkey := range key.Subkeys {
     subkey.Sig.KeyLifetimeSecs = &dur
-    err := subkey.Sig.SignKey(subkey.PublicKey, key.PrivateKey, nil)
+    err := subkey.Sig.SignKey(subkey.PublicKey, key.PrivateKey, &config.Config)
     if err != nil {
       return nil, err
     }
