@@ -2,6 +2,8 @@ package gpgeez
 
 import (
   "bytes"
+  "time"
+
   "golang.org/x/crypto/openpgp"
   "golang.org/x/crypto/openpgp/armor"
   "golang.org/x/crypto/openpgp/packet"
@@ -9,7 +11,7 @@ import (
 
 type Config struct {
   packet.Config
-  Expiry uint32 // in days
+  Expiry time.Duration
 }
 
 type Key struct {
@@ -62,7 +64,7 @@ func CreateKey(name, comment, email string, config *Config) (*Key, error) {
   }
 
   // Self-sign the identity. Set expiry and algorithms
-  dur := uint32(config.Expiry)
+  dur := uint32(config.Expiry.Seconds())
   for _, id := range key.Identities {
     id.SelfSignature.KeyLifetimeSecs = &dur
 
