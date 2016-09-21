@@ -128,6 +128,10 @@ func (key *Key) Armor() (string, error) {
 
 /**
  * Returns the private part of a Key in armor format.
+ *
+ * Note: if you want to protect the string against varous low-level attacks, you should look at
+ * https://github.com/stouset/go.secrets and https://github.com/worr/secstring
+ * and then re-implement this function.
  */
  func (key *Key) ArmorPrivate(config *Config) (string, error) {
    buf := new(bytes.Buffer)
