@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"time"
+ 	"io/ioutil"
 
 	"github.com/alokmenghrajani/gpgeez"
 )
@@ -27,4 +28,7 @@ func main() {
 		return
 	}
 	fmt.Printf("%s\n", output)
+
+	ioutil.WriteFile("pub.gpg", key.Keyring(), 0666)
+	ioutil.WriteFile("priv.gpg", key.Secring(&config), 0666)
 }

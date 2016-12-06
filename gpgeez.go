@@ -144,3 +144,18 @@ func (key *Key) ArmorPrivate(config *Config) (string, error) {
 
 	return buf.String(), nil
 }
+
+// A keyring is simply one (or more) keys in binary format.
+func (key *Key) Keyring() []byte {
+	buf := new(bytes.Buffer)
+	key.Serialize(buf)
+	return buf.Bytes()
+}
+
+// A secring is simply one (or more) keys in binary format.
+func (key *Key) Secring(config *Config) []byte {
+	buf := new(bytes.Buffer)
+	c := config.Config
+	key.SerializePrivate(buf, &c)
+	return buf.Bytes()
+}
